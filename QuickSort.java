@@ -1,79 +1,49 @@
 public class QuickSort {
-    int[] sortedData;
-    int[] randomData;
-    int[] LargeSizeData;
+    int[] randomData = new int[32];
+    int[] LargeSizeData = new int[1024];
 
-    public void setSortedData(int[] data){
-        this.sortedData = data;
+    int compCount = 0;
+
+    public QuickSort(int[] randomData, int[] largeSizeData) {
+        this.randomData = randomData;
+        LargeSizeData = largeSizeData;
+    }
+    public void countReset(){
+        this.compCount = 0;
     }
 
-    public void setRandomData(int[]data){
-        this.randomData = data;
+    boolean compare(int x, int y){
+        compCount++;
+        return x > y;
     }
+     int partition(int[] data, int p, int r) {
 
-    public void setLargeSizeData(int[] data){
-        this.LargeSizeData = data;
-    }
+        int x = data[r];
 
-    // method to find the partition position
-    static int partition(int[] data, int low, int high) {
+        int i = p - 1;
 
-        // choose the rightmost element as pivot
-        int pivot = data[high];
-
-        // pointer for greater element
-        int i = (low - 1);
-
-        // traverse through all elements
-        // compare each element with pivot
-        for (int j = low; j < high; j++) {
-            if (data[j] <= pivot) {
-
-                // if element smaller than pivot is found
-                // swap it with the greater element pointed by i
+        for (int j = p; j < r; j++) {
+            if (compare(data[j],x)) {
                 i++;
-
-                // swapping element at i with element at j
                 int temp = data[i];
                 data[i] = data[j];
                 data[j] = temp;
             }
 
         }
-
-        // swapt the pivot element with the greater element specified by i
         int temp = data[i + 1];
-        data[i + 1] = data[high];
-        data[high] = temp;
-
-        // return the position from where partition is done
-        return (i + 1);
+        data[i + 1] = data[r];
+        data[r] = temp;
+        return i + 1;
     }
 
-    public void sort(int[] data, int low, int high) {
+    public void sort(int[] data, int p, int r) {
 
-        for (int datum : data) {
-            System.out.printf("%d ", datum);
-        }
-        System.out.println("\n");
-
-        if (low < high) {
-
-            // find pivot element such that
-            // elements smaller than pivot are on the left
-            // elements greater than pivot are on the right
-            int pi = partition(data, low, high);
-
-            // recursive call on the left of pivot
-            sort(data, low, pi - 1);
-
-            // recursive call on the right of pivot
-            sort(data, pi + 1, high);
+        if (p < r){
+            int q = partition(data, p, r);
+            sort(data, p, q - 1);
+            sort(data, q + 1, r);
         }
 
-        for (int datum : data) {
-            System.out.printf("%d ", datum);
-        }
-        System.out.println("\n");
     }
 }

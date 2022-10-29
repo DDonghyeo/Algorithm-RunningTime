@@ -1,43 +1,33 @@
 public class InsertionSort {
 
-    int[] sortedData;
     int[] randomData;
-    int[] LargeSizeData;
+    int[] largeSizeData;
 
-    public void setSortedData(int[] data){
-        this.sortedData = data;
+    public InsertionSort(int[] randomData, int[] largeSizeData) {
+        this.randomData = randomData;
+        this.largeSizeData = largeSizeData;
     }
 
-    public void setRandomData(int[]data){
-        this.randomData = data;
+    int compCount = 0;
+    public void countReset(){
+        this.compCount = 0;
     }
 
-    public void setLargeSizeData(int[] data){
-        this.LargeSizeData = data;
+    boolean compare(int x, int y){
+        compCount++;
+        return x > y;
     }
-
     void sort(int[] data) {
 
-        for (int datum : data) {
-            System.out.printf("%d ", datum);
-        }
-        System.out.println("\n");
-
-        int size = data.length;
-
-        for (int i = 1; i < size; i++) {
-            int key = data[i];
-            int j = i - 1;
-            while (j >= 0 && key < data[j]) {
-                data[j + 1] = data[j];
-                --j;
+        for (int j= 1; j < data.length; j++) {
+            int key = data[j];
+            int i = j - 1;
+            while (i >= 0 && compare(data[i],key)) {
+                data[i + 1] = data[i];
+                i--;
             }
-            data[j + 1] = key;
+            data[i + 1] = key;
         }
-        for (int datum1 : data) {
-            System.out.printf("%d ", datum1);
-        }
-        System.out.println("\n");
     }
 }
 

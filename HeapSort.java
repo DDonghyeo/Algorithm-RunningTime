@@ -1,65 +1,64 @@
 public class HeapSort {
 
-    int[] sortedData;
-    int[] randomData;
+    int[] randomData ;
     int[] LargeSizeData;
 
-    public void setSortedData(int[] data){
-        this.sortedData = data;
+    int compCount = 0;
+
+    public HeapSort(int[] randomData, int[] largeSizeData) {
+        this.randomData = randomData;
+        LargeSizeData = largeSizeData;
     }
 
-    public void setRandomData(int[]data){
-        this.randomData = data;
+    public void countReset(){
+        this.compCount = 0;
+    }
+    boolean compare(int x, int y){
+        compCount++;
+        return x > y;
     }
 
-    public void setLargeSizeData(int[] data){
-        this.LargeSizeData = data;
-    }
-
-    public void sort(int[] data) {
-        for (int datum : data) {
-            System.out.printf("%d ", datum);
-        }
-        System.out.println("\n");
-
-        int n = data.length;
-
-        // Max Heap
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(data, n, i);
-        }
+    public void sort(int data[]) {
+       BuildMaxHeap(data);
 
         // Heap sort
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = data.length -1; i >= 0; i--) {
             int temp = data[0];
             data[0] = data[i];
             data[i] = temp;
 
-            heapify(data, i, 0);
+            MaxHeapify(data, i);
         }
-        for (int datum : data) {
-            System.out.printf("%d ", datum);
-        }
-        System.out.println("\n");
     }
 
-    void heapify(int[] data, int n, int i) {
-        int biggest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
 
-        if (left < n && data[left] > data[biggest])
-            biggest = left;
+    void MaxHeapify(int[] data, int i) {
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
+        int largest=i;
 
-        if (right < n && data[right] > data[biggest])
-            biggest = right;
+        if (l <= data.length-1) {
+            if (compare(data[l], data[i])) {
+                largest = l;
+            }
+        }
+        if (r <= data.length-1) {
+            if (compare(data[r], data[i])) {
+                largest = r;
+            }
+        }
 
-        if (biggest != i) {
+        if (largest != i) {
             int swap = data[i];
-            data[i] = data[biggest];
-            data[biggest] = swap;
+            data[i] = data[largest];
+            data[largest] = swap;
+            MaxHeapify(data,i);
+        }
+    }
 
-            heapify(data, n, biggest);
+    void BuildMaxHeap(int [] data){
+        for (int i = (int) Math.floor(data.length/2); i>=0; i-- ){
+            MaxHeapify(data,i);
         }
     }
 }
